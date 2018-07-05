@@ -5,16 +5,16 @@ import * as R from 'ramda';
 export type TMap = {[key: string]: any};
 type TMapper = (key: string) => string;
 
-const capitalize = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
+export const capitalize = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1);
 
-const snakeCaseToCamelCase = (snakeCase: string): string => {
+export const snakeCaseToCamelCase = (snakeCase: string): string => {
     return snakeCase
         .split('_')
-        .map(capitalize)
+        .map((part, index) => index === 0 ? part : capitalize(part))
         .join('');
 }
 
-const mapObjectKeys = R.curry((mapper: TMapper, obj: TMap): any => {
+export const mapObjectKeys = R.curry((mapper: TMapper, obj: TMap): any => {
     return Object.keys(obj).reduce((acc: TMap, k) => ({
         ...acc,
         [mapper(k)]: obj[k],
@@ -26,7 +26,7 @@ export const processedResponse: <T extends TMap>(
     hasEntityType: (result: any) => boolean,
 ) => Future<string, T> = (response, hasEntityType) => {
     return response
-        .mapRej(R.prop('message'))
+        .mapRej(R.pipe(R.propOr('Unknown', 'code'), x => 'Axios error: ' + x))
         .map(R.prop('data'))
         .chain(data => R.isNil(data) ? Future.reject('response.data is empty') : Future.of(data))
         .map(mapObjectKeys(snakeCaseToCamelCase))
