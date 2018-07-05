@@ -1,4 +1,4 @@
-# typescript-react-redux-saga-boilerplate
+# Anime Database
 
 A simple SPA boilerplate intended for test projects, katas and prototypes. **Not production ready**.
 

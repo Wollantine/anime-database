@@ -1,8 +1,9 @@
 {
-  "name": "typescript-react-redux-saga-boilerplate",
+  "name": "anime-database",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.tsx",
+  "author": "Kwirke",
   "scripts": {
     "start": "webpack-dev-server --open",
     "test": "mocha --require mochaConfig.js --require @babel/polyfill --recursive \"src/**/*.test.*\"",
@@ -17,6 +18,8 @@
     "@babel/polyfill": "^7.0.0-beta.51",
     "axios": "^0.18.0",
     "fela": "^6.1.8",
+    "fluture": "^8.0.2",
+    "querystrings": "^0.4.0",
     "ramda": "^0.25.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -26,6 +29,7 @@
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.0",
+    "string-template": "^1.0.0",
     "tsmonad": "^0.8.0"
   },
   "devDependencies": {
