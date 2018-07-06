@@ -1,11 +1,11 @@
 import * as qs from 'querystrings';
-import * as renderTemplate from 'string-template';
-import { get } from './api';
-import { processedResponse } from './responseProcessor';
+import renderTemplate from 'string-template';
+import { IApi } from './api';
+import { processedResponse, TMap } from './responseProcessor';
 import * as R from 'ramda';
 import { Future } from 'fluture';
 
-const SEARCH_ANIME_ENDPOINT = '/search/anime/{page}';
+const SEARCH_INFO_ENDPOINT = '/search/{type}/{query}/{page}';
 
 export enum EInfoType {
     anime = 'anime',
@@ -52,25 +52,41 @@ const animeAlike: IAnime = {
 
 export const searchInfoUrl = (
     type: EInfoType,
-    page?: number,
-    advancedSearchOptions?: Partial<IAdvancedSearchOptions>
-) => {
-    const endpoint = renderTemplate(SEARCH_ANIME_ENDPOINT, {type, page});
-    const queryString = qs.stringify(advancedSearchOptions);
-    return endpoint + '?' + queryString;
-}
-
-const encodeUtf8 = (s: string) => unescape(encodeURIComponent(s));
-
-const isAnime = (entity: any): entity is IAnime =>
-    R.allPass(Object.keys(animeAlike).map(R.has))(entity);
-
-export const searchAnime = (
     query: string,
     page?: number,
     advancedSearchOptions?: Partial<IAdvancedSearchOptions>
-): Future<string, IAnime> => {
-    const searchOptions = {...advancedSearchOptions, q: encodeUtf8(query)};
-    const url = searchInfoUrl(EInfoType.anime, page, searchOptions);
-    return processedResponse<IAnime>(get(url), isAnime);
+) => {
+    const q = encodeURIComponent(query);
+    const endpoint = renderTemplate(SEARCH_INFO_ENDPOINT, {type, query: q, page});
+    const queryString = qs.stringify(advancedSearchOptions);
+    const infix = queryString.length > 0 ? '?' : '';
+    return endpoint + infix + queryString;
+}
+
+export const objectValues = <T>(obj: Map<any, T>): T[] => {
+    return Object.keys(R.defaultTo({}, obj)).reduce(
+        (acc, key) => [...acc, obj[key]]
+    , [] as any[]);
+}
+
+export const isAnime = (entity: any): entity is IAnime => {
+    const obj = R.defaultTo({}, entity);
+    return R.allPass(R.map(R.has, Object.keys(animeAlike)))(obj);
+}
+
+export const isAnimeList = (entityList: any): entityList is Map<number, IAnime> => {
+    return typeof entityList !== 'object'
+        ? false
+        : objectValues(entityList).every(isAnime)
+}
+
+export const searchAnime = (
+    api: IApi,
+    query: string,
+    page?: number,
+    advancedSearchOptions?: Partial<IAdvancedSearchOptions>
+): Future<string, IAnime[]> => {
+    const url = searchInfoUrl(EInfoType.anime, query, page, advancedSearchOptions);
+    const response = processedResponse<Map<number, IAnime>>(api.get(url), isAnimeList);
+    return response.map(objectValues);
 }
