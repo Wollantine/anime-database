@@ -23,8 +23,9 @@ module.exports = {
   ],
   module: {
     rules: [
-      { test: /\.jsx?|\.tsx?$/, exclude: /node_modules/, loader: "babel-loader" },
-      { test: /\.(png|svg|jpg|gif)$/, loader: "file-loader" },
+      { test: /\.jsx?|\.tsx?$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.css$/, loader: 'css-loader' },
+      { test: /\.(png|svg|jpg|gif)$/, loader: 'file-loader' },
     ]
   }
 };

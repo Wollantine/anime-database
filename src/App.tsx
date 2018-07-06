@@ -7,6 +7,7 @@ import { Provider as FelaProvider } from 'react-fela';
 import createSagaMiddleware from 'redux-saga';
 import { appSaga } from './redux/appSaga';
 import { Main } from './components/Main/Main';
+import './App.css';
 const logger: any = require('redux-logger').default;
 
 
