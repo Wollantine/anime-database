@@ -8,6 +8,7 @@ import createSagaMiddleware from 'redux-saga';
 import { appSaga } from './redux/appSaga';
 import { Main } from './components/Main/Main';
 import './App.css';
+import { CssBaseline } from '@material-ui/core';
 const logger: any = require('redux-logger').default;
 
 
@@ -23,7 +24,10 @@ sagaMiddleware.run(appSaga);
 const App = () => (
     <ReduxProvider store={store}>
         <FelaProvider renderer={renderer}>
-            <Main/>
+            <>
+                <CssBaseline/>
+                <Main/>
+            </>
         </FelaProvider>
     </ReduxProvider>
 );
