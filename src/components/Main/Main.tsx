@@ -1,3 +1,6 @@
 import * as React from 'react';
+import { SearchForm } from '../SearchForm/SearchForm';
 
-export const Main = () => <h1>Hello World!</h1>;
+export const Main = () => (
+    <SearchForm/>
+);

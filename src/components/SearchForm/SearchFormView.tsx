@@ -1,24 +1,22 @@
-import { EStatus } from "../../api/searchAnime";
+import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
-interface IStateProps {
+export interface IStateProps {
     searchQuery: string;
-    status: EStatus;
+    status: string;
     score: number;
+    statuses: string[];
 }
 
-interface IActionProps {
+export interface IActionProps {
     onSearchChange: (text: string) => void;
-    onStatusChange: (status: EStatus) => void;
+    onStatusChange: (status: React.ChangeEvent) => void;
     onScoreChange: (score: number) => void;
 }
 
-const statusesWithRepetitions = Object.keys(EStatus);
-const statuses = statusesWithRepetitions.filter((status, index) => statusesWithRepetitions.indexOf(status) === index);
-
-export const SearchForm: React.StatelessComponent<IStateProps & IActionProps> = (
-    {searchQuery, status, score, onSearchChange, onStatusChange, onScoreChange}
+export const SearchFormView: React.StatelessComponent<IStateProps & IActionProps> = (
+    {searchQuery, status, score, statuses, onSearchChange, onStatusChange, onScoreChange}
 ) => (
     <div>
         <TextField
@@ -30,12 +28,12 @@ export const SearchForm: React.StatelessComponent<IStateProps & IActionProps> = 
             label="Status"
             select
             value={status}
-            onChange={(e) => onStatusChange(EStatus[e.target.value])}
+            onChange={onStatusChange}
         >
             {statuses.map(status => (
                 <MenuItem key={status} value={status}>{status}</MenuItem>
             ))}
         </TextField>
-        //TODO Slider
+        {/*TODO Slider*/}
     </div>
 )
