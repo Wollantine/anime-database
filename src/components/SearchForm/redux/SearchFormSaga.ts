@@ -5,7 +5,7 @@ import { searchAnime, IAnime } from '../../../api/searchAnime';
 import { Api } from '../../../api/api';
 import { ISearchFormState } from './SearchFormState';
 import { Future } from 'fluture';
-import { animeFetchSuccess, animeFetchFailure } from '../../AnimeTable/redux/AnimeTableActions';
+import { animeFetchSuccess, animeFetchFailure, animeFetchStart } from '../../AnimeTable/redux/AnimeTableActions';
 import { delay } from 'redux-saga';
 
 export function* watchFieldUpdates() {
@@ -37,7 +37,7 @@ function* animeListRequest() {
 
 function* resolveAnimeList(futureAnimeList) {
     try {
-        console.log(futureAnimeList);
+        yield put(animeFetchStart());
         const animeList = yield call(() => futureAnimeList.promise());
         yield put(animeFetchSuccess(animeList));
     } catch (error) {
