@@ -18,7 +18,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Change this in webpack.config.js!',
+      title: 'Anime Database',
     })
   ],
   module: {
