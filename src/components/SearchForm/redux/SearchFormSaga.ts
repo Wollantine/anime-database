@@ -7,10 +7,15 @@ import { ISearchFormState } from './SearchFormState';
 import { Future } from 'fluture';
 import { animeFetchSuccess, animeFetchFailure, animeFetchStart } from '../../AnimeTable/redux/AnimeTableActions';
 import { delay } from 'redux-saga';
+import { TAction } from '../../../redux/appReducer';
+
+const isValidUpdateQueryAction = (action: TAction): boolean => (
+    action.type === UPDATE_QUERY && (action.query.length >= 3 || action.query.length === 0)
+);
 
 export function* watchFieldUpdates() {
     yield takeLatest([
-        UPDATE_QUERY,
+        isValidUpdateQueryAction,
         UPDATE_SCORE,
         UPDATE_STATUS,
     ], fetchAnimeList);
