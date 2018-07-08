@@ -21,14 +21,22 @@ export const mapObjectKeys = R.curry((mapper: TMapper, obj: TMap): any => {
     }), {});
 });
 
-export const processedResponse: <T extends TMap>(
+export const processData = <T extends TMap>(data: T | T[]): TMap => {
+    const isArray = Array.isArray(data);
+    return isArray
+        ? (data as T[]).map(mapObjectKeys(snakeCaseToCamelCase))
+        : mapObjectKeys(snakeCaseToCamelCase, data);
+}
+
+export const processedResponse: <T>(
     response: Future<AxiosError, AxiosResponse<any>>,
     hasEntityType: (result: any) => boolean,
 ) => Future<string, T> = (response, hasEntityType) => {
     return response
         .mapRej(R.pipe(R.propOr('Unknown', 'code'), x => 'Axios error: ' + x))
-        .map(R.prop('data'))
-        .chain(data => R.isNil(data) ? Future.reject('response.data is empty') : Future.of(data))
-        .map(mapObjectKeys(snakeCaseToCamelCase))
-        .chain(entity => hasEntityType(entity) ? Future.of(entity) : Future.reject('Unexpected response format'));
+        .map(R.path(['data', 'result']))
+        .chain(data => R.isNil(data) ? Future.reject('response.data.result is empty') : Future.of(data))
+        .map(processData)
+        .map(R.tap(console.log))
+        .chain(entity => hasEntityType(entity) ? Future.of(entity) : Future.reject('Unexpected response format: ' + JSON.stringify(entity)));
 }

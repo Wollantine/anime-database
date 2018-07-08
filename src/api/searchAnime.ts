@@ -63,21 +63,15 @@ export const searchInfoUrl = (
     return endpoint + infix + queryString;
 }
 
-export const objectValues = <T>(obj: Map<any, T>): T[] => {
-    return Object.keys(R.defaultTo({}, obj)).reduce(
-        (acc, key) => [...acc, obj[key]]
-    , [] as any[]);
-}
-
 export const isAnime = (entity: any): entity is IAnime => {
     const obj = R.defaultTo({}, entity);
     return R.allPass(R.map(R.has, Object.keys(animeAlike)))(obj);
 }
 
-export const isAnimeList = (entityList: any): entityList is Map<number, IAnime> => {
-    return typeof entityList !== 'object'
+export const isAnimeList = (entityList: any): entityList is IAnime[] => {
+    return !Array.isArray(entityList)
         ? false
-        : objectValues(entityList).every(isAnime)
+        : entityList.every(isAnime)
 }
 
 export const searchAnime = (
@@ -87,6 +81,6 @@ export const searchAnime = (
     advancedSearchOptions?: Partial<IAdvancedSearchOptions>
 ): Future<string, IAnime[]> => {
     const url = searchInfoUrl(EInfoType.anime, query, page, advancedSearchOptions);
-    const response = processedResponse<Map<number, IAnime>>(api.get(url), isAnimeList);
-    return response.map(objectValues);
+    const response = processedResponse<IAnime[]>(api.get(url), isAnimeList);
+    return response;
 }

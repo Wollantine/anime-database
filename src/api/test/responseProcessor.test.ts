@@ -71,7 +71,7 @@ describe('responseProcessor', () => {
             message: 'Resource not found',
         };
         const axiosResponse: AxiosResponse = {
-            data: {},
+            data: {result: {}},
             status: 200,
             statusText: 'OK',
             headers: {},
@@ -88,11 +88,11 @@ describe('responseProcessor', () => {
         });
 
         it('should extract data from AxiosResponse', () => {
-            const data = {test: '42'};
+            const data = {result: {test: '42'}};
             const request = Future.of({...axiosResponse, data});
             return processedResponse(request, isEntity).fork(
                 () => {throw new Error()},
-                (response) => expect(response).to.deep.equal(data),
+                (response) => expect(response).to.deep.equal(data.result),
             );
         });
 
@@ -114,7 +114,7 @@ describe('responseProcessor', () => {
         });
 
         it('should camelCase all data keys', () => {
-            const data = {'random_key': 'randomValue'};
+            const data = {result: {'random_key': 'randomValue'}};
             const request = Future.of({...axiosResponse, data});
             return processedResponse(request, isEntity).fork(
                 () => {throw new Error()},

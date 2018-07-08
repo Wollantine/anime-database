@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import { searchAnime, searchInfoUrl, EInfoType, EStatus, IAnime, isAnime, objectValues, isAnimeList } from '../searchAnime';
+import { searchAnime, searchInfoUrl, EInfoType, EStatus, IAnime, isAnime, isAnimeList } from '../searchAnime';
 import * as R from 'ramda';
 import { AxiosResponse, AxiosError } from 'axios';
 import { Future } from 'fluture';
@@ -41,22 +41,6 @@ describe('searchAnime', () => {
         });
     });
 
-    describe('objectValues', () => {
-        it('should return the object values', () => {
-            const value1 = {a: 'hi', b: true};
-            const value2 = {a: 'bye', b: false};
-            expect(objectValues({value1, value2} as any)).to.deep.equal([value1, value2]);
-        });
-
-        it('should return an empty array for an empty object', () => {
-            expect(objectValues({} as any)).to.deep.equal([]);
-        });
-
-        it('should return an empty array for a null', () => {
-            expect(objectValues(null as any)).to.deep.equal([]);
-        });
-    });
-
     describe('isAnime', () => {
         it('should return true for a valid anime', () => {
             expect(isAnime(anime)).to.be.true;
@@ -78,20 +62,12 @@ describe('searchAnime', () => {
 
     describe('isAnimeList', () => {
         it('should return true for a hashmap of anime objects', () => {
-            const animeList = {
-                0: anime,
-                1: anime,
-                2: anime,
-            };
+            const animeList = [anime, anime, anime];
             expect(isAnimeList(animeList)).to.be.true;
         });
 
         it('should return false for a hashmap of other values', () => {
-            const randomList = {
-                0: 'text',
-                1: true,
-                2: 42,
-            };
+            const randomList = [anime, 'text', 42];
             expect(isAnimeList(randomList)).to.be.false;
         });
 
@@ -103,7 +79,7 @@ describe('searchAnime', () => {
     describe('searchAnime', () => {
         it('should call api.get with the endpoint URL', () => {
             const response = {
-                data: [anime],
+                data: {result: [anime]},
             } as AxiosResponse;
             const api = {get: sinon.fake.returns(Future.of(response))}
             const expectedUrl = '/search/anime/test/1?status=airing';
@@ -115,7 +91,7 @@ describe('searchAnime', () => {
 
         it('should return a Future of the anime if the request responded correctly', () => {
             const response = {
-                data: [anime]
+                data: {result: [anime]},
             } as AxiosResponse;
             const api = {get: () => Future.of(response)};
             return searchAnime(api, 'test').fork(
