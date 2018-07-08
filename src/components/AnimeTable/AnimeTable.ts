@@ -12,8 +12,20 @@ const sortRowsByColumn = (columnId: keyof IRow, order: 'asc' | 'desc'): ((rows: 
     return R.pipe(sortingFunction, reverseIfNeeded);
 }
 
-const mapStateToProps = (state: IState): IStateProps => ({
-    rows: sortRowsByColumn(state.animeTable.orderBy, state.animeTable.order)(state.animeTable.rows),
-});
+const getRowsByPage = R.curry((page: number, pageSize: number, rows: IRow[]): IRow[] => (
+    rows.slice(page * pageSize, (page + 1) * pageSize)
+));
+
+const mapStateToProps = (state: IState): IStateProps => {
+    const {orderBy, order, rows} = state.animeTable;
+    const {page, pageSize} = state.animeTable.pagination;
+    const getRows = R.pipe(
+        sortRowsByColumn(orderBy, order),
+        getRowsByPage(page, pageSize),
+    );
+    return {
+        rows: getRows(rows),
+    };
+};
 
 export const AnimeTable = connect(mapStateToProps)(AnimeTableView);

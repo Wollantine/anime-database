@@ -4,6 +4,7 @@ import { IRow } from "./AnimeTableState";
 import { IAnime } from "../../../api/searchAnime";
 import { ANIME_FETCH_SUCCESS, UPDATE_TABLE_SORTING } from "./AnimeTableActions";
 import * as R from 'ramda';
+import { paginationReducer } from "../Pagination/redux/PaginationReducer";
 
 const animeToRow = (anime: IAnime): IRow => ({
     id: anime.malId,
@@ -46,4 +47,5 @@ export const animeTableReducer = combineReducers({
     rows,
     order,
     orderBy,
+    pagination: paginationReducer,
 });

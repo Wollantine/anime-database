@@ -1,17 +1,14 @@
 import * as React from 'react';
-import { Paper, Table, TableHead, TableRow, TableCell, TableBody, TableSortLabel } from '@material-ui/core';
+import { Paper, Table, TableHead, TableRow, TableCell, TableBody, TableSortLabel, TablePagination } from '@material-ui/core';
 import { IRow } from './redux/AnimeTableState';
 import { HeadCell } from './HeadCell/HeadCell';
+import { Pagination } from './Pagination/Pagination';
 
 export interface IStateProps {
     rows: IRow[];
 }
 
-export interface IActionProps {
-
-}
-
-export const AnimeTableView: React.StatelessComponent<IStateProps & IActionProps> = (
+export const AnimeTableView: React.StatelessComponent<IStateProps> = (
     {rows}
 ) => (
     <Paper>
@@ -35,5 +32,8 @@ export const AnimeTableView: React.StatelessComponent<IStateProps & IActionProps
                 ))}
             </TableBody>
         </Table>
+        
+        <Pagination/>
+
     </Paper>
 );
