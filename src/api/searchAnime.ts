@@ -34,8 +34,8 @@ export interface IAnime {
     description: string;
     type: string;
     score: number;
-    episodes: number;
-    members: number;
+    episodes?: number;
+    members?: number;
 }
 
 const animeAlike: IAnime = {
@@ -46,8 +46,6 @@ const animeAlike: IAnime = {
     description: '',
     type: '',
     score: 0,
-    episodes: 0,
-    members: 0,
 };
 
 export const searchInfoUrl = (

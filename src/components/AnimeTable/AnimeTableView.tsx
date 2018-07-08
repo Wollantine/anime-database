@@ -29,7 +29,7 @@ export const AnimeTableView: React.StatelessComponent<IStateProps & IActionProps
                     <TableRow key={row.id}>
                         <TableCell>{row.title}</TableCell>
                         <TableCell numeric>{row.score}</TableCell>
-                        <TableCell numeric>{row.episodes}</TableCell>
+                        <TableCell numeric>{row.episodes >= 0 ? row.episodes : '-'}</TableCell>
                         <TableCell>{row.description}</TableCell>
                     </TableRow>
                 ))}

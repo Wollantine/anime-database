@@ -3,12 +3,13 @@ import { TAction } from "../../../redux/appReducer";
 import { IRow } from "./AnimeTableState";
 import { IAnime } from "../../../api/searchAnime";
 import { ANIME_FETCH_SUCCESS, UPDATE_TABLE_SORTING } from "./AnimeTableActions";
+import * as R from 'ramda';
 
 const animeToRow = (anime: IAnime): IRow => ({
     id: anime.malId,
     title: anime.title,
     score: anime.score,
-    episodes: anime.episodes,
+    episodes: R.defaultTo(-1, anime.episodes),
     description: anime.description,
 });
 
