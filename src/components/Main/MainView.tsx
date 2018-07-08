@@ -36,11 +36,11 @@ export const MainView: React.StatelessComponent<IProps> = ({isLoading}) => (
     <MuiThemeProvider theme={theme}>
         <TitleBar/>
         <Grid container direction="row" justify="center" alignItems="center">
-            <Grid item xs={10}>
+            <Grid item sm={10} xs={12}>
                 <Grid container direction="column" justify="flex-end" spacing={32}>
                     <Grid item>
                         <Grid container direction="column" justify="center" alignItems="center">
-                            <Grid item xs={6}>
+                            <Grid item sm={6} xs={12}>
                                 <SearchForm/>
                             </Grid>
                         </Grid>

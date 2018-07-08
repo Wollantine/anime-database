@@ -17,7 +17,7 @@ export function* watchFieldUpdates() {
 }
 
 function* fetchAnimeList() {
-    yield call(delay, 500);
+    yield call(delay, 1000);
     const futureAnimeList: Future<string, IAnime[]> = yield call(animeListRequest);
     yield call(resolveAnimeList, futureAnimeList);
 }
