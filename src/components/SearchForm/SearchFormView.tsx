@@ -1,7 +1,8 @@
 import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Grid } from '@material-ui/core';
+import { Grid, FormControl, InputLabel } from '@material-ui/core';
+import Slider from '@material-ui/lab/Slider';
 
 export interface IStateProps {
     searchQuery: string;
@@ -39,6 +40,18 @@ export const SearchFormView: React.StatelessComponent<IStateProps & IActionProps
                 ))}
             </TextField>
         </Grid>
-        {/*TODO Slider*/}
+        <Grid item>
+            <FormControl style={{width: 300}}>
+                <InputLabel htmlFor="score">{`Score: ${score}`}</InputLabel>
+                <Slider
+                    id="score"
+                    min={0}
+                    max={10}
+                    step={0.5}
+                    value={score}
+                    onChange={(_, value) => onScoreChange(value)}
+                />
+            </FormControl>
+        </Grid>
     </Grid>
 )
