@@ -19,15 +19,15 @@ export interface IActionProps {
 export const SearchFormView: React.StatelessComponent<IStateProps & IActionProps> = (
     {searchQuery, status, score, statuses, onSearchChange, onStatusChange, onScoreChange}
 ) => (
-    <Grid container direction="column" spacing={16} justify="center" alignItems="stretch">
-        <Grid item xs={12}>
+    <Grid container direction="column" spacing={16} justify="center" alignItems="flex-start">
+        <Grid item>
             <TextField
                 label="Search text"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
             />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item>
             <TextField
                 label="Status"
                 select

@@ -13,7 +13,7 @@ const theme = createMuiTheme({
 });
 
 const TitleBar = () => (
-    <AppBar position="static" color="primary">
+    <AppBar position="static" color="primary" style={{marginBottom: '20px'}}>
         <Toolbar>
             <Typography variant="headline" color="inherit">
                 Anime Database
@@ -26,10 +26,14 @@ export const Main = () => (
     <MuiThemeProvider theme={theme}>
         <TitleBar/>
         <Grid container direction="row" justify="center" alignItems="center">
-            <Grid item>
+            <Grid item xs={10}>
                 <Grid container direction="column" justify="flex-end" spacing={32}>
-                    <Grid item xs={12}>
-                        <SearchForm/>
+                    <Grid item>
+                        <Grid container direction="column" justify="center" alignItems="center">
+                            <Grid item xs={6}>
+                                <SearchForm/>
+                            </Grid>
+                        </Grid>
                     </Grid>
                     <Grid item>
                         <AnimeTable/>
