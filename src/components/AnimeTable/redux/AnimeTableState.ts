@@ -8,4 +8,6 @@ export interface IRow {
 
 export interface IAnimeTableState {
     rows: IRow[];
+    order: 'asc' | 'desc';
+    orderBy: keyof IRow;
 }

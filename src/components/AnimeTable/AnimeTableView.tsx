@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Paper, Table, TableHead, TableRow, TableCell, TableBody, TableSortLabel } from '@material-ui/core';
 import { IRow } from './redux/AnimeTableState';
+import { HeadCell } from './HeadCell/HeadCell';
 
 export interface IStateProps {
     rows: IRow[];
@@ -17,9 +18,9 @@ export const AnimeTableView: React.StatelessComponent<IStateProps & IActionProps
         <Table>
             <TableHead>
                 <TableRow>
-                    <TableCell>Title</TableCell>
-                    <TableCell numeric>Score</TableCell>
-                    <TableCell numeric>Episodes</TableCell>
+                    <HeadCell columnId="title" label="Title"/>
+                    <HeadCell columnId="score" label="Score" numeric/>
+                    <HeadCell columnId="episodes" label="Episodes" numeric/>
                     <TableCell>Description</TableCell>
                 </TableRow>
             </TableHead>

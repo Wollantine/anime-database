@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import { TAction } from "../../../redux/appReducer";
 import { IRow } from "./AnimeTableState";
 import { IAnime } from "../../../api/searchAnime";
-import { ANIME_FETCH_SUCCESS } from "./AnimeTableActions";
+import { ANIME_FETCH_SUCCESS, UPDATE_TABLE_SORTING } from "./AnimeTableActions";
 
 const animeToRow = (anime: IAnime): IRow => ({
     id: anime.malId,
@@ -21,6 +21,28 @@ const rows = (state: IRow[] = [], action: TAction) => {
     }
 }
 
+const order = (state: 'asc' | 'desc' = 'desc', action: TAction) => {
+    switch (action.type) {
+        case UPDATE_TABLE_SORTING:
+            return !action.isSameColumn
+                ? 'desc'
+                : state === 'asc' ? 'desc' : 'asc';
+        default:
+            return state;
+    }
+}
+
+const orderBy = (state: keyof IRow = 'id', action: TAction) => {
+    switch (action.type) {
+        case UPDATE_TABLE_SORTING:
+            return action.columnId;
+        default:
+            return state;
+    }
+}
+
 export const animeTableReducer = combineReducers({
     rows,
+    order,
+    orderBy,
 });
