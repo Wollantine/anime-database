@@ -1,6 +1,8 @@
 # Anime Database
 
-An online anime database SPA, implemented with [MaterialUI](https://material-ui.com/), React, Redux, [Redux Saga](https://github.com/redux-saga/redux-saga), and some Functional Programming goodies, like:
+An online anime database SPA, using http://jikan.moe/ API to retrieve anime data from MyAnimeList.
+
+Implemented with [MaterialUI](https://material-ui.com/), React, Redux, [Redux Saga](https://github.com/redux-saga/redux-saga), and some Functional Programming goodies, like:
 
 - Typescript (via @babel/preset-typescript + tsc)
 - [Fluture](https://github.com/fluture-js/Fluture)
